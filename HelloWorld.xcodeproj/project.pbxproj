@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		37B6FE3A27C420C100137C63 /* NSObject+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6FE3927C420C100137C63 /* NSObject+Util.m */; };
 		DB3AD27A2215FE770060C256 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3AD2792215FE770060C256 /* AppDelegate.swift */; };
 		DB3AD27C2215FE770060C256 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3AD27B2215FE770060C256 /* ViewController.swift */; };
 		DB3AD27F2215FE770060C256 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB3AD27D2215FE770060C256 /* Main.storyboard */; };
@@ -30,8 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		37B6FE3827C420C100137C63 /* NSObject+Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Util.h"; sourceTree = "<group>"; };
-		37B6FE3927C420C100137C63 /* NSObject+Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Util.m"; sourceTree = "<group>"; };
 		DB3AD2762215FE770060C256 /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB3AD2792215FE770060C256 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB3AD27B2215FE770060C256 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,8 +96,6 @@
 				DB3AD2822215FE780060C256 /* LaunchScreen.storyboard */,
 				DB3AD27D2215FE770060C256 /* Main.storyboard */,
 				DB3AD27B2215FE770060C256 /* ViewController.swift */,
-				37B6FE3827C420C100137C63 /* NSObject+Util.h */,
-				37B6FE3927C420C100137C63 /* NSObject+Util.m */,
 			);
 			path = HelloWorld;
 			sourceTree = "<group>";
@@ -219,7 +214,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37B6FE3A27C420C100137C63 /* NSObject+Util.m in Sources */,
 				DB3AD27C2215FE770060C256 /* ViewController.swift in Sources */,
 				DB3AD27A2215FE770060C256 /* AppDelegate.swift in Sources */,
 				DB3AD29C2215FF0C0060C256 /* ExampleInObjc.m in Sources */,
