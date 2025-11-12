@@ -20,11 +20,11 @@ class LiquidGlassPanel: UIView {
         layer.masksToBounds = true
 
         // Create blur effect
-        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffect = UIBlurEffect(style: .prominent)
         blurView.effect = blurEffect
         blurView.frame = bounds
         blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurView.alpha = 0.5  // Make it more transparent
+        blurView.alpha = 0.6
         insertSubview(blurView, at: 0)
     }
 }
