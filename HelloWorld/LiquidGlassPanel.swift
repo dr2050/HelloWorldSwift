@@ -1,10 +1,9 @@
 // (c) Confusion Studios LLC and affiliates. Confidential and proprietary.
 
-import UIKit
 import SwiftUI
+import UIKit
 
 class LiquidGlassPanel: UIView {
-
     init(cornerRadius: CGFloat) {
         super.init(frame: .zero)
         setupView(cornerRadius: cornerRadius)
@@ -29,7 +28,7 @@ struct LiquidGlassSwiftUIView: View {
     let cornerRadius: CGFloat
 
     var body: some View {
-        RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(Color.red.opacity(0.5))
+        Rectangle()
+            .glassEffect(.clear.interactive())
     }
 }

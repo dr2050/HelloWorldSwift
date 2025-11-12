@@ -65,7 +65,7 @@ class ViewController: UIViewController {
             panel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: panelX),
             panel.topAnchor.constraint(equalTo: view.topAnchor, constant: panelY),
             panel.widthAnchor.constraint(equalToConstant: panelWidth),
-            panel.heightAnchor.constraint(equalToConstant: panelHeight)
+            panel.heightAnchor.constraint(equalToConstant: panelHeight),
         ])
     }
 }

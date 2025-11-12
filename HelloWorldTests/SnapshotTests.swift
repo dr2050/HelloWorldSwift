@@ -1,10 +1,9 @@
 // (c) Confusion Studios LLC and affiliates. Confidential and proprietary.
 
-import XCTest
 @testable import HelloWorld
+import XCTest
 
 class SnapshotTests: XCTestCase {
-
     func testViewControllerSnapshot() {
         let vc = ViewController()
         vc.view.frame = CGRect(x: 0, y: 0, width: 393, height: 852) // iPhone 15 Pro size
@@ -22,7 +21,7 @@ class SnapshotTests: XCTestCase {
         try? FileManager.default.createDirectory(at: snapshotDir, withIntermediateDirectories: true)
 
         let renderer = UIGraphicsImageRenderer(bounds: vc.view.bounds)
-        let image = renderer.image { context in
+        let image = renderer.image { _ in
             vc.view.drawHierarchy(in: vc.view.bounds, afterScreenUpdates: true)
         }
 
