@@ -28,7 +28,8 @@ struct LiquidGlassSwiftUIView: View {
     let cornerRadius: CGFloat
 
     var body: some View {
-        Rectangle()
+        Text("")
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .glassEffect(.clear.interactive())
     }
 }
