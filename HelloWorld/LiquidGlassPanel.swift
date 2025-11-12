@@ -1,9 +1,9 @@
 // (c) Confusion Studios LLC and affiliates. Confidential and proprietary.
 
 import UIKit
+import SwiftUI
 
 class LiquidGlassPanel: UIView {
-    private let blurView = UIVisualEffectView()
 
     init(cornerRadius: CGFloat) {
         super.init(frame: .zero)
@@ -16,15 +16,20 @@ class LiquidGlassPanel: UIView {
     }
 
     private func setupView(cornerRadius: CGFloat) {
-        layer.cornerRadius = cornerRadius
-        layer.masksToBounds = true
+        let swiftUIView = LiquidGlassSwiftUIView(cornerRadius: cornerRadius)
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        hostingController.view.backgroundColor = .clear
+        hostingController.view.frame = bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(hostingController.view)
+    }
+}
 
-        // Create blur effect
-        let blurEffect = UIBlurEffect(style: .prominent)
-        blurView.effect = blurEffect
-        blurView.frame = bounds
-        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurView.alpha = 0.6
-        insertSubview(blurView, at: 0)
+struct LiquidGlassSwiftUIView: View {
+    let cornerRadius: CGFloat
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: cornerRadius)
+            .fill(Color.red.opacity(0.5))
     }
 }
