@@ -5,13 +5,13 @@ set -e
 
 SNAPSHOT_PATH="Snapshots/testViewControllerSnapshot.png"
 
-echo "🔨 Building and running snapshot test..."
+echo "🔨 Cleaning and building snapshot test..."
 
-xcodebuild test \
+xcodebuild clean test \
   -scheme HelloWorld \
-  -destination 'platform=iOS Simulator,id=255FB8A5-3BF0-4110-9565-0DD4CD939F98' \
+  -destination 'platform=iOS Simulator,id=CE2B3D49-DCC9-4252-88CD-9B036E3E242A' \
   -only-testing:HelloWorldTests/SnapshotTests/testViewControllerSnapshot \
-  2>&1 | grep -E "(Test Case.*started|Test Case.*passed|Test Case.*failed|BUILD SUCCEEDED)" || true
+  2>&1 | grep -E "(Test Case.*started|Test Case.*passed|Test Case.*failed|BUILD SUCCEEDED|CLEAN SUCCEEDED)" || true
 
 echo ""
 echo "✅ Snapshot saved to:"
