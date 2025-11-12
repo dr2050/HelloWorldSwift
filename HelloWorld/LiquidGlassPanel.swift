@@ -15,6 +15,9 @@ class LiquidGlassPanel: UIView {
     }
 
     private func setupView(cornerRadius: CGFloat) {
+        layer.cornerRadius = cornerRadius
+        layer.masksToBounds = true
+
         let swiftUIView = LiquidGlassSwiftUIView(cornerRadius: cornerRadius)
         let hostingController = UIHostingController(rootView: swiftUIView)
         hostingController.view.backgroundColor = .clear
@@ -24,12 +27,14 @@ class LiquidGlassPanel: UIView {
     }
 }
 
-struct LiquidGlassSwiftUIView: View {
+private struct LiquidGlassSwiftUIView: View {
     let cornerRadius: CGFloat
 
     var body: some View {
-        RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(.clear)
-            .glassEffect(.clear.interactive())
+        let r = RoundedRectangle(cornerRadius: cornerRadius)
+        Rectangle().fill(.clear)
+            .frame(width: .infinity, height: 200)
+            .glassEffect(.clear)
+            .mask(r)
     }
 }
