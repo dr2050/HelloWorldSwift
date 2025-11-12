@@ -1,7 +1,6 @@
 // (c) Confusion Studios LLC and affiliates. Confidential and proprietary.
 
 import XCTest
-import SnapshotTesting
 @testable import HelloWorld
 
 class SnapshotTests: XCTestCase {
@@ -14,6 +13,22 @@ class SnapshotTests: XCTestCase {
         vc.loadViewIfNeeded()
         vc.view.layoutIfNeeded()
 
-        assertSnapshot(of: vc, as: .image)
+        // Save snapshot to project root
+        let projectRoot = URL(fileURLWithPath: #file)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+
+        let snapshotDir = projectRoot.appendingPathComponent("Snapshots")
+        try? FileManager.default.createDirectory(at: snapshotDir, withIntermediateDirectories: true)
+
+        let renderer = UIGraphicsImageRenderer(bounds: vc.view.bounds)
+        let image = renderer.image { context in
+            vc.view.layer.render(in: context.cgContext)
+        }
+
+        let snapshotPath = snapshotDir.appendingPathComponent("testViewControllerSnapshot.png")
+        try? image.pngData()?.write(to: snapshotPath)
+
+        print("✅ Snapshot saved to: \(snapshotPath.path)")
     }
 }

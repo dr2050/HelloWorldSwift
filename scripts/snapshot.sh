@@ -3,7 +3,7 @@
 # Snapshot script - runs snapshot test and reports location
 set -e
 
-SNAPSHOT_PATH="HelloWorldTests/__Snapshots__/SnapshotTests/testViewControllerSnapshot.1.png"
+SNAPSHOT_PATH="Snapshots/testViewControllerSnapshot.png"
 
 echo "🔨 Building and running snapshot test..."
 

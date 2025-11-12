@@ -6,7 +6,9 @@
       "Bash(gem update:*)",
       "Bash(rm:*)",
       "Bash(xcodebuild test:*)",
-      "Bash(xcodebuild clean build-for-testing:*)"
+      "Bash(xcodebuild clean build-for-testing:*)",
+      "Bash(xcodebuild clean test:*)",
+      "Bash(./Scripts/snapshot.sh:*)"
     ],
     "deny": [],
     "ask": []
