@@ -31,10 +31,11 @@ private struct LiquidGlassSwiftUIView: View {
     let cornerRadius: CGFloat
 
     var body: some View {
-        let r = RoundedRectangle(cornerRadius: cornerRadius)
-        Rectangle().fill(.clear)
-            .frame(width: .infinity, height: 200)
-            .glassEffect(.clear)
-            .mask(r)
+        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+
+        Rectangle()
+            .fill(.clear)
+            .frame(maxWidth: .infinity)
+            .glassEffect(.clear, in: shape)
     }
 }

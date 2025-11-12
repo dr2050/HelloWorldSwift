@@ -24,7 +24,7 @@ class ViewController: UIViewController {
             fatalError("ImageView must have an image")
         }
 
-        let panel = LiquidGlassPanel(cornerRadius: 10)
+        let panel = LiquidGlassPanel(cornerRadius: 40)
         panel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(panel)
 
