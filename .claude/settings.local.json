@@ -8,7 +8,8 @@
       "Bash(xcodebuild test:*)",
       "Bash(xcodebuild clean build-for-testing:*)",
       "Bash(xcodebuild clean test:*)",
-      "Bash(./Scripts/snapshot.sh:*)"
+      "Bash(./Scripts/snapshot.sh:*)",
+      "Bash(./scripts/snapshot.sh:*)"
     ],
     "deny": [],
     "ask": []
