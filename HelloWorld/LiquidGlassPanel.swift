@@ -3,6 +3,7 @@
 import UIKit
 
 class LiquidGlassPanel: UIView {
+    private let blurView = UIVisualEffectView()
 
     init(cornerRadius: CGFloat) {
         super.init(frame: .zero)
@@ -15,7 +16,15 @@ class LiquidGlassPanel: UIView {
     }
 
     private func setupView(cornerRadius: CGFloat) {
-        backgroundColor = UIColor.red.withAlphaComponent(0.5)
         layer.cornerRadius = cornerRadius
+        layer.masksToBounds = true
+
+        // Create blur effect
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        blurView.effect = blurEffect
+        blurView.frame = bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.alpha = 0.5  // Make it more transparent
+        insertSubview(blurView, at: 0)
     }
 }

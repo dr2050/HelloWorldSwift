@@ -23,7 +23,7 @@ class SnapshotTests: XCTestCase {
 
         let renderer = UIGraphicsImageRenderer(bounds: vc.view.bounds)
         let image = renderer.image { context in
-            vc.view.layer.render(in: context.cgContext)
+            vc.view.drawHierarchy(in: vc.view.bounds, afterScreenUpdates: true)
         }
 
         let snapshotPath = snapshotDir.appendingPathComponent("testViewControllerSnapshot.png")
