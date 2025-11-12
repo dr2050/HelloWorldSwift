@@ -4,7 +4,9 @@
       "Bash(gem install:*)",
       "Bash(pod deintegrate:*)",
       "Bash(gem update:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(xcodebuild test:*)",
+      "Bash(xcodebuild clean build-for-testing:*)"
     ],
     "deny": [],
     "ask": []
