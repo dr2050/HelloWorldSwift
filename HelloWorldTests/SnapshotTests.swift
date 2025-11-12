@@ -14,6 +14,6 @@ class SnapshotTests: XCTestCase {
         vc.loadViewIfNeeded()
         vc.view.layoutIfNeeded()
 
-        assertSnapshot(of: vc, as: .image, record: true)
+        assertSnapshot(of: vc, as: .image)
     }
 }
