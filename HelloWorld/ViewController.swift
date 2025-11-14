@@ -2,12 +2,21 @@ import UIKit
 
 class ViewController: UIViewController {
     let imageView = UIImageView()
+    private var panelWidthConstraint: NSLayoutConstraint?
+    private var panelHeightConstraint: NSLayoutConstraint?
+    private var shrinkTimer: Timer?
+    private var glassPanel: LiquidGlassBackgroundView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("yes I am viewDidload")
         setupImageView()
         setupLiquidGlassPanel()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        shrinkTimer?.invalidate()
     }
 
     func setupImageView() {
@@ -24,9 +33,10 @@ class ViewController: UIViewController {
             fatalError("ImageView must have an image")
         }
 
-        let panel = LiquidGlassPanel(cornerRadius: 40)
+        let panel = LiquidGlassBackgroundView(cornerRadius: 40)
         panel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(panel)
+        glassPanel = panel
 
         let yPercentage: CGFloat = 0.57
         let widthPercentage: CGFloat = 0.9
@@ -64,8 +74,58 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             panel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: panelX),
             panel.topAnchor.constraint(equalTo: view.topAnchor, constant: panelY),
-            panel.widthAnchor.constraint(equalToConstant: panelWidth),
-            panel.heightAnchor.constraint(equalToConstant: panelHeight),
         ])
+
+        let widthConstraint = panel.widthAnchor.constraint(equalToConstant: panelWidth)
+        let heightConstraint = panel.heightAnchor.constraint(equalToConstant: panelHeight)
+        NSLayoutConstraint.activate([widthConstraint, heightConstraint])
+
+        panelWidthConstraint = widthConstraint
+        panelHeightConstraint = heightConstraint
+
+        startPanelShrinkTimer()
+    }
+
+    private func startPanelShrinkTimer() {
+        shrinkTimer?.invalidate()
+        shrinkTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.shrinkPanel(by: 0.05)
+            }
+        }
+    }
+
+    private func shrinkPanel(by percentage: CGFloat) {
+        guard let widthConstraint = panelWidthConstraint,
+              let heightConstraint = panelHeightConstraint,
+              percentage > 0,
+              percentage < 1 else {
+            return
+        }
+
+        let reductionFactor = 1.0 - percentage
+        let newWidth = max(widthConstraint.constant * reductionFactor, 10)
+        let newHeight = max(heightConstraint.constant * reductionFactor, 10)
+
+        guard newWidth < widthConstraint.constant || newHeight < heightConstraint.constant else {
+            return
+        }
+
+        widthConstraint.constant = newWidth
+        heightConstraint.constant = newHeight
+
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+        
+        glassPanel?.glassTintColor = randomGlassColor()
+    }
+    
+    private func randomGlassColor() -> UIColor {
+        let hue = CGFloat.random(in: 0...1)
+        let saturation = CGFloat.random(in: 0.4...0.9)
+        let brightness = CGFloat.random(in: 0.6...1)
+        let alpha = CGFloat.random(in: 0.4...1)
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
 }

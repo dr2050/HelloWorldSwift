@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3758F55C2EC4F1FE008F5D1B /* liquid-glass-example-dry.png in Resources */ = {isa = PBXBuildFile; fileRef = 3758F55B2EC4F1FE008F5D1B /* liquid-glass-example-dry.png */; };
-		3758F55F2EC4F358008F5D1B /* LiquidGlassPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758F55E2EC4F358008F5D1B /* LiquidGlassPanel.swift */; };
+		3758F55F2EC4F358008F5D1B /* LiquidGlassBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758F55E2EC4F358008F5D1B /* LiquidGlassBackgroundView.swift */; };
 		3758F5682EC4F9B4008F5D1B /* SnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758F5672EC4F9AF008F5D1B /* SnapshotTests.swift */; };
 		DB3AD27A2215FE770060C256 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3AD2792215FE770060C256 /* AppDelegate.swift */; };
 		DB3AD27C2215FE770060C256 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3AD27B2215FE770060C256 /* ViewController.swift */; };
@@ -32,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		3758F55B2EC4F1FE008F5D1B /* liquid-glass-example-dry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "liquid-glass-example-dry.png"; sourceTree = "<group>"; };
-		3758F55E2EC4F358008F5D1B /* LiquidGlassPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassPanel.swift; sourceTree = "<group>"; };
+		3758F55E2EC4F358008F5D1B /* LiquidGlassBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassBackgroundView.swift; sourceTree = "<group>"; };
 		3758F5672EC4F9AF008F5D1B /* SnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTests.swift; sourceTree = "<group>"; };
 		DB3AD2762215FE770060C256 /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB3AD2792215FE770060C256 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 				DB3AD2822215FE780060C256 /* LaunchScreen.storyboard */,
 				DB3AD27D2215FE770060C256 /* Main.storyboard */,
 				DB3AD27B2215FE770060C256 /* ViewController.swift */,
-				3758F55E2EC4F358008F5D1B /* LiquidGlassPanel.swift */,
+				3758F55E2EC4F358008F5D1B /* LiquidGlassBackgroundView.swift */,
 			);
 			path = HelloWorld;
 			sourceTree = "<group>";
@@ -226,7 +226,7 @@
 			files = (
 				DB3AD27C2215FE770060C256 /* ViewController.swift in Sources */,
 				DB3AD27A2215FE770060C256 /* AppDelegate.swift in Sources */,
-				3758F55F2EC4F358008F5D1B /* LiquidGlassPanel.swift in Sources */,
+				3758F55F2EC4F358008F5D1B /* LiquidGlassBackgroundView.swift in Sources */,
 				DB3AD29C2215FF0C0060C256 /* ExampleInObjc.m in Sources */,
 				DB3AD29E221600200060C256 /* ExampleInSwift.swift in Sources */,
 			);
