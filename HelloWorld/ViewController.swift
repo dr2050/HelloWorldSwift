@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         }
 
         let panel = LiquidGlassBackgroundView(cornerRadius: 40)
+        panel.glassTintColor = UIColor.orange.withAlphaComponent(0.0001)
         panel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(panel)
         glassPanel = panel
@@ -88,7 +89,7 @@ class ViewController: UIViewController {
 
     private func startPanelShrinkTimer() {
         shrinkTimer?.invalidate()
-        shrinkTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+        shrinkTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
             DispatchQueue.main.async {
                 self?.shrinkPanel(by: 0.05)
             }
