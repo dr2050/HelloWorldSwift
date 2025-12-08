@@ -7,12 +7,32 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
     private let scrollView = UIScrollView()
     private let pageControl = UIPageControl()
     private var imageViews: [UIImageView] = []
-
-    private let imageNames = [
-        "tutorial-ipad-01.jpg",
-        "tutorial-ipad-02.jpg",
-        "tutorial-ipad-03.jpg"
-    ]
+    private let imageNames: [String]
+    
+    init(slug: String) {
+        self.imageNames = Self.discoverImages(for: slug)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private static func discoverImages(for slug: String) -> [String] {
+        guard let bundlePath = Bundle.main.resourcePath else {
+            return []
+        }
+        
+        let fileManager = FileManager.default
+        guard let files = try? fileManager.contentsOfDirectory(atPath: bundlePath) else {
+            return []
+        }
+        
+        let prefix = "tutorial-\(slug)-"
+        return files
+            .filter { $0.hasPrefix(prefix) && $0.hasSuffix(".jpg") }
+            .sorted()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

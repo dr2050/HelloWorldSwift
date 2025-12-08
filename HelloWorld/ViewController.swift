@@ -21,7 +21,7 @@ class ViewController: UINavigationController {
     }
 
     @objc private func showAnother() {
-        let vc = TutorialController()
+        let vc = TutorialController(slug: "ipad")
         pushViewController(vc, animated: true)
     }
 }
