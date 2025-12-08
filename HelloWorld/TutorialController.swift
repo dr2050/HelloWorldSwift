@@ -70,9 +70,10 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         let width = view.bounds.width
         let height = scrollView.bounds.height
 
-        for (index, slideView) in slideViews.enumerated() {
-            let x = CGFloat(index) * width
+        var x: CGFloat = 0
+        for slideView in slideViews {
             slideView.frame = CGRect(x: x, y: 0, width: width, height: height)
+            x += width
         }
 
         scrollView.contentSize = CGSize(width: width * CGFloat(slideViews.count), height: height)
