@@ -6,6 +6,7 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
 
     private let scrollView = UIScrollView()
     private let pageControl = UIPageControl()
+    private var imageViews: [UIImageView] = []
 
     private let imageNames = [
         "tutorial-ipad-01.jpg",
@@ -20,6 +21,7 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
 
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
 
         view.addSubview(scrollView)
@@ -45,43 +47,38 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
     }
 
     private func setupSlides() {
-        for (index, name) in imageNames.enumerated() {
+        for name in imageNames {
             let imageView = UIImageView(image: UIImage(named: name))
             imageView.contentMode = .scaleAspectFit
             imageView.clipsToBounds = true
-
-            imageView.frame = CGRect(
-                x: CGFloat(index) * view.bounds.width,
-                y: 0,
-                width: view.bounds.width,
-                height: scrollView.bounds.height
-            )
-
+            
             scrollView.addSubview(imageView)
+            imageViews.append(imageView)
         }
-
-        scrollView.contentSize = CGSize(
-            width: view.bounds.width * CGFloat(imageNames.count),
-            height: scrollView.bounds.height
-        )
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        for (index, imageView) in scrollView.subviews.enumerated() {
+        let width = view.bounds.width
+        let height = scrollView.bounds.height
+        
+        for (index, imageView) in imageViews.enumerated() {
             imageView.frame = CGRect(
-                x: CGFloat(index) * view.bounds.width,
+                x: CGFloat(index) * width,
                 y: 0,
-                width: view.bounds.width,
-                height: scrollView.bounds.height
+                width: width,
+                height: height
             )
         }
 
         scrollView.contentSize = CGSize(
-            width: view.bounds.width * CGFloat(imageNames.count),
-            height: scrollView.bounds.height
+            width: width * CGFloat(imageViews.count),
+            height: height
         )
+        
+        // Prevent vertical scrolling
+        scrollView.contentInsetAdjustmentBehavior = .never
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
