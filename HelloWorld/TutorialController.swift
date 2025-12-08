@@ -105,11 +105,11 @@ extension TutorialController: UIPageViewControllerDelegate {
 private final class TutorialSlideContentController: UIViewController {
 
     let index: Int
-    private let slideView: TutorialSlideView
+    private let imageName: String
 
     init(imageName: String, index: Int) {
         self.index = index
-        self.slideView = TutorialSlideView(imageName: imageName, index: index)
+        self.imageName = imageName
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -118,6 +118,6 @@ private final class TutorialSlideContentController: UIViewController {
     }
 
     override func loadView() {
-        view = slideView
+        view = TutorialSlideView(imageName: imageName, index: index)
     }
 }
