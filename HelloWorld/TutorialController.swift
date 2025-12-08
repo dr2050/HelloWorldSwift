@@ -2,124 +2,122 @@
 
 import UIKit
 
-class TutorialController: UIViewController, UIScrollViewDelegate {
+final class TutorialController: UIPageViewController {
 
-    private let scrollView = UIScrollView()
-    private let pageControl = UIPageControl()
-    private var slideViews: [TutorialSlideView] = []
     private let imageNames: [String]
-    private var pageBeforeRotation: Int = 0
+    private lazy var slideControllers: [TutorialSlideContentController] = imageNames.enumerated().map {
+        TutorialSlideContentController(imageName: $0.element, index: $0.offset)
+    }
+    private var currentIndex: Int = 0
 
     init(slug: String) {
         self.imageNames = Self.discoverImages(for: slug)
-        super.init(nibName: nil, bundle: nil)
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .black
+        dataSource = self
+        delegate = self
 
-        scrollView.isPagingEnabled = true
-        scrollView.showsHorizontalScrollIndicator = false
-        
-        // No vertical scrolling
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.contentInsetAdjustmentBehavior = .never
-
-        scrollView.delegate = self
-
-        view.addSubview(scrollView)
-        view.addSubview(pageControl)
-
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
-
-            pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            pageControl.heightAnchor.constraint(equalToConstant: 40)
-        ])
-
-        pageControl.numberOfPages = imageNames.count
-        setupSlides()
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        // Store current page before rotation
-        if scrollView.bounds.width > 0 {
-            pageBeforeRotation = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
-        }
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        let width = view.bounds.width
-        let height = scrollView.bounds.height
-
-        var x: CGFloat = 0
-        for slideView in slideViews {
-            slideView.frame = CGRect(x: x, y: 0, width: width, height: height)
-            x += width
-        }
-
-        scrollView.contentSize = CGSize(width: width * CGFloat(slideViews.count), height: height)
-
-        // Snap to the stored page to prevent being stuck between pages during rotation
-        let targetOffset = CGFloat(pageBeforeRotation) * width
-        scrollView.setContentOffset(CGPoint(x: targetOffset, y: 0), animated: false)
-        setPageToPageControl()
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        setPageToPageControl()
+        setInitialPageIfNeeded()
     }
 }
 
-// MARK: - Private
+// MARK: - Helpers
 
-extension TutorialController {
-    private static func discoverImages(for slug: String) -> [String] {
+private extension TutorialController {
+
+    func setInitialPageIfNeeded() {
+        guard let first = slideControllers.first else { return }
+        currentIndex = first.index
+        setViewControllers([first], direction: .forward, animated: false)
+    }
+
+    static func discoverImages(for slug: String) -> [String] {
         guard let bundlePath = Bundle.main.resourcePath else {
             return []
         }
-        
+
         let fileManager = FileManager.default
         guard let files = try? fileManager.contentsOfDirectory(atPath: bundlePath) else {
             return []
         }
-        
+
         let prefix = "tutorial-\(slug)-"
         return files
             .filter { $0.hasPrefix(prefix) && $0.hasSuffix(".jpg") }
             .sorted()
     }
-    
-    private func setPageToPageControl() {
-        guard scrollView.bounds.width > 0 else { return }
-        
-        let page = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
-        pageControl.currentPage = page
+}
+
+// MARK: - UIPageViewControllerDataSource
+
+extension TutorialController: UIPageViewControllerDataSource {
+
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let slide = viewController as? TutorialSlideContentController else { return nil }
+        let previousIndex = slide.index - 1
+        guard previousIndex >= 0 else { return nil }
+        return slideControllers[previousIndex]
     }
 
-    private func setupSlides() {
-        for (index, name) in imageNames.enumerated() {
-            let slideView = TutorialSlideView(imageName: name, index: index)
-            scrollView.addSubview(slideView)
-            slideViews.append(slideView)
-        }
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let slide = viewController as? TutorialSlideContentController else { return nil }
+        let nextIndex = slide.index + 1
+        guard nextIndex < slideControllers.count else { return nil }
+        return slideControllers[nextIndex]
+    }
+
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        slideControllers.count
+    }
+
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        currentIndex
+    }
+}
+
+// MARK: - UIPageViewControllerDelegate
+
+extension TutorialController: UIPageViewControllerDelegate {
+
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            didFinishAnimating finished: Bool,
+                            previousViewControllers: [UIViewController],
+                            transitionCompleted completed: Bool) {
+        guard completed,
+              let visible = viewControllers?.first as? TutorialSlideContentController else { return }
+        currentIndex = visible.index
+    }
+}
+
+// MARK: - Slide Container
+
+private final class TutorialSlideContentController: UIViewController {
+
+    let index: Int
+    private let slideView: TutorialSlideView
+
+    init(imageName: String, index: Int) {
+        self.index = index
+        self.slideView = TutorialSlideView(imageName: imageName, index: index)
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        view = slideView
     }
 }
