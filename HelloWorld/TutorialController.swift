@@ -8,7 +8,8 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
     private let pageControl = UIPageControl()
     private var slideViews: [TutorialSlideView] = []
     private let imageNames: [String]
-    
+    private var pageBeforeRotation: Int = 0
+
     init(slug: String) {
         self.imageNames = Self.discoverImages(for: slug)
         super.init(nibName: nil, bundle: nil)
@@ -54,29 +55,36 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         setupSlides()
     }
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        // Store current page before rotation
+        if scrollView.bounds.width > 0 {
+            pageBeforeRotation = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
+        }
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         let width = view.bounds.width
         let height = scrollView.bounds.height
-        
+
         for (index, slideView) in slideViews.enumerated() {
             let x = CGFloat(index) * width
-            slideView.frame = CGRect(x: x, y: 0, width: width, height: height
-            )
+            slideView.frame = CGRect(x: x, y: 0, width: width, height: height)
         }
 
-        scrollView.contentSize = CGSize(
-            width: width * CGFloat(slideViews.count),
-            height: height
-        )
+        scrollView.contentSize = CGSize(width: width * CGFloat(slideViews.count), height: height)
+
+        // Snap to the stored page to prevent being stuck between pages during rotation
+        let targetOffset = CGFloat(pageBeforeRotation) * width
+        scrollView.setContentOffset(CGPoint(x: targetOffset, y: 0), animated: false)
+        setPageToPageControl()
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView.bounds.width > 0 else { return }
-        
-        let page = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
-        pageControl.currentPage = page
+        setPageToPageControl()
     }
 }
 
@@ -97,6 +105,13 @@ extension TutorialController {
         return files
             .filter { $0.hasPrefix(prefix) && $0.hasSuffix(".jpg") }
             .sorted()
+    }
+    
+    private func setPageToPageControl() {
+        guard scrollView.bounds.width > 0 else { return }
+        
+        let page = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
+        pageControl.currentPage = page
     }
 
     private func setupSlides() {

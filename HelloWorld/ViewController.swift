@@ -18,6 +18,10 @@ class ViewController: UINavigationController {
 
         root.navigationItem.rightBarButtonItem = button
         viewControllers = [root]
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.showAnother()
+        }
     }
 
     @objc private func showAnother() {

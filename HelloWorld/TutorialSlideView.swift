@@ -61,13 +61,13 @@ private class TutorialTextContentView: UIView {
         
 
         // Title label
-        titleLabel.text = NSLocalizedString(titleKey, comment: "")
+        titleLabel.text = local(titleKey)
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         titleLabel.textColor = .white
         titleLabel.numberOfLines = 0
         
         // Text label
-        textLabel.text = NSLocalizedString(textKey, comment: "")
+        textLabel.text = local(textKey)
         textLabel.font = .preferredFont(forTextStyle: .body)
         textLabel.textColor = .white
         textLabel.numberOfLines = 0

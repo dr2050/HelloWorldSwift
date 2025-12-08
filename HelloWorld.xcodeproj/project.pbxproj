@@ -14,6 +14,7 @@
 		37CAB53C2EE75B9A0065C491 /* tutorial-ipad-01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 37CAB5362EE75B9A0065C491 /* tutorial-ipad-01.jpg */; };
 		37CAB5402EE75EDF0065C491 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37CAB53F2EE75ED70065C491 /* Localizable.strings */; };
 		37CAB5462EE762460065C491 /* TutorialSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CAB5452EE762460065C491 /* TutorialSlideView.swift */; };
+		37CAB5482EE76FA80065C491 /* GlobalStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CAB5472EE76FA20065C491 /* GlobalStuff.swift */; };
 		DB3AD27A2215FE770060C256 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3AD2792215FE770060C256 /* AppDelegate.swift */; };
 		DB3AD27C2215FE770060C256 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3AD27B2215FE770060C256 /* ViewController.swift */; };
 		DB3AD27F2215FE770060C256 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB3AD27D2215FE770060C256 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		37CAB5382EE75B9A0065C491 /* tutorial-ipad-03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "tutorial-ipad-03.jpg"; sourceTree = "<group>"; };
 		37CAB53F2EE75ED70065C491 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		37CAB5452EE762460065C491 /* TutorialSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSlideView.swift; sourceTree = "<group>"; };
+		37CAB5472EE76FA20065C491 /* GlobalStuff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalStuff.swift; sourceTree = "<group>"; };
 		DB3AD2762215FE770060C256 /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB3AD2792215FE770060C256 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB3AD27B2215FE770060C256 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		DB3AD2782215FE770060C256 /* HelloWorld */ = {
 			isa = PBXGroup;
 			children = (
+				37CAB5472EE76FA20065C491 /* GlobalStuff.swift */,
 				37CAB53F2EE75ED70065C491 /* Localizable.strings */,
 				37CAB5392EE75B9A0065C491 /* Assets */,
 				DB3AD2792215FE770060C256 /* AppDelegate.swift */,
@@ -253,6 +256,7 @@
 				DB3AD29C2215FF0C0060C256 /* ExampleInObjc.m in Sources */,
 				37CAB5352EE758A10065C491 /* TutorialController.swift in Sources */,
 				DB3AD29E221600200060C256 /* ExampleInSwift.swift in Sources */,
+				37CAB5482EE76FA80065C491 /* GlobalStuff.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
