@@ -57,7 +57,7 @@ private class TutorialTextContentView: UIView {
         layer.cornerRadius = 12
         layer.masksToBounds = true
         layer.borderColor = UIColor.white.cgColor
-        layer.borderWidth = 0.5
+        layer.borderWidth = 1.0
         
 
         // Title label
