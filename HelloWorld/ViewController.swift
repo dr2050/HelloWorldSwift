@@ -21,16 +21,7 @@ class ViewController: UINavigationController {
     }
 
     @objc private func showAnother() {
-        let vc = AnotherController()
+        let vc = TutorialController()
         pushViewController(vc, animated: true)
-    }
-}
-
-class AnotherController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBlue
-        title = "Another"
     }
 }
