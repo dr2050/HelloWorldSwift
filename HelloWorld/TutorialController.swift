@@ -18,30 +18,18 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private static func discoverImages(for slug: String) -> [String] {
-        guard let bundlePath = Bundle.main.resourcePath else {
-            return []
-        }
-        
-        let fileManager = FileManager.default
-        guard let files = try? fileManager.contentsOfDirectory(atPath: bundlePath) else {
-            return []
-        }
-        
-        let prefix = "tutorial-\(slug)-"
-        return files
-            .filter { $0.hasPrefix(prefix) && $0.hasSuffix(".jpg") }
-            .sorted()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .black
 
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
+        
+        // No vertical scrolling
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInsetAdjustmentBehavior = .never
+
         scrollView.delegate = self
 
         view.addSubview(scrollView)
@@ -66,14 +54,6 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         setupSlides()
     }
 
-    private func setupSlides() {
-        for (index, name) in imageNames.enumerated() {
-            let slideView = TutorialSlideView(imageName: name, index: index)
-            scrollView.addSubview(slideView)
-            slideViews.append(slideView)
-        }
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -81,11 +61,8 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         let height = scrollView.bounds.height
         
         for (index, slideView) in slideViews.enumerated() {
-            slideView.frame = CGRect(
-                x: CGFloat(index) * width,
-                y: 0,
-                width: width,
-                height: height
+            let x = CGFloat(index) * width
+            slideView.frame = CGRect(x: x, y: 0, width: width, height: height
             )
         }
 
@@ -93,9 +70,6 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
             width: width * CGFloat(slideViews.count),
             height: height
         )
-        
-        // Prevent vertical scrolling
-        scrollView.contentInsetAdjustmentBehavior = .never
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -103,5 +77,33 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         
         let page = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
         pageControl.currentPage = page
+    }
+}
+
+// MARK: - Private
+
+extension TutorialController {
+    private static func discoverImages(for slug: String) -> [String] {
+        guard let bundlePath = Bundle.main.resourcePath else {
+            return []
+        }
+        
+        let fileManager = FileManager.default
+        guard let files = try? fileManager.contentsOfDirectory(atPath: bundlePath) else {
+            return []
+        }
+        
+        let prefix = "tutorial-\(slug)-"
+        return files
+            .filter { $0.hasPrefix(prefix) && $0.hasSuffix(".jpg") }
+            .sorted()
+    }
+
+    private func setupSlides() {
+        for (index, name) in imageNames.enumerated() {
+            let slideView = TutorialSlideView(imageName: name, index: index)
+            scrollView.addSubview(slideView)
+            slideViews.append(slideView)
+        }
     }
 }

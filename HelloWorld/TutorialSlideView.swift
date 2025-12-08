@@ -24,26 +24,17 @@ class TutorialSlideView: UIView {
         imageView.frame = bounds
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(imageView)
-        
+
         addSubview(textContentView)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        // Make sure we have valid bounds
-        guard bounds.width > 0, bounds.height > 0 else { return }
-        
-        // Size the text content view to fit
-        let maxWidth: CGFloat = min(400, bounds.width - 40)
-        let size = textContentView.sizeThatFits(CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
-        
-        textContentView.frame = CGRect(
-            x: bounds.width - size.width - 40,
-            y: bounds.height - size.height - 20,
-            width: size.width,
-            height: size.height
-        )
+
+        // Set up Auto Layout for text content view
+        textContentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            textContentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40),
+            textContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            textContentView.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
+            textContentView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -40)
+        ])
     }
     
     required init?(coder: NSCoder) {
@@ -62,7 +53,7 @@ private class TutorialTextContentView: UIView {
     init(titleKey: String, textKey: String) {
         super.init(frame: .zero)
         
-        backgroundColor = .systemBackground.withAlphaComponent(0.9)
+        backgroundColor = .black.withAlphaComponent(0.9)
         layer.cornerRadius = 12
         layer.masksToBounds = true
         layer.borderColor = UIColor.white.cgColor
@@ -72,13 +63,13 @@ private class TutorialTextContentView: UIView {
         // Title label
         titleLabel.text = NSLocalizedString(titleKey, comment: "")
         titleLabel.font = .preferredFont(forTextStyle: .headline)
-        titleLabel.textColor = .label
+        titleLabel.textColor = .white
         titleLabel.numberOfLines = 0
         
         // Text label
         textLabel.text = NSLocalizedString(textKey, comment: "")
         textLabel.font = .preferredFont(forTextStyle: .body)
-        textLabel.textColor = .secondaryLabel
+        textLabel.textColor = .white
         textLabel.numberOfLines = 0
         
         // Stack view for labels
@@ -87,29 +78,17 @@ private class TutorialTextContentView: UIView {
         stackView.alignment = .leading
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(textLabel)
-        
+
         addSubview(stackView)
-        stackView.frame = bounds.inset(by: UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
-        stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    }
-    
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let maxWidth = size.width - 32
-        titleLabel.preferredMaxLayoutWidth = maxWidth
-        textLabel.preferredMaxLayoutWidth = maxWidth
-        
-        let stackSize = stackView.systemLayoutSizeFitting(
-            CGSize(width: maxWidth, height: UIView.layoutFittingCompressedSize.height),
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
-        
-        return CGSize(width: stackSize.width + 32, height: stackSize.height + 32)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        stackView.frame = bounds.inset(by: UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
+
+        // Set up Auto Layout for stack view
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+        ])
     }
     
     required init?(coder: NSCoder) {

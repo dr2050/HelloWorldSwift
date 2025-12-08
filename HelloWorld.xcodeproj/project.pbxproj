@@ -110,7 +110,6 @@
 			children = (
 				37CAB53F2EE75ED70065C491 /* Localizable.strings */,
 				37CAB5392EE75B9A0065C491 /* Assets */,
-				37CAB5342EE7589B0065C491 /* TutorialController.swift */,
 				DB3AD2792215FE770060C256 /* AppDelegate.swift */,
 				DB3AD2802215FE780060C256 /* Assets.xcassets */,
 				DB3AD29A2215FF0C0060C256 /* ExampleInObjc.h */,
@@ -121,6 +120,7 @@
 				DB3AD2822215FE780060C256 /* LaunchScreen.storyboard */,
 				DB3AD27D2215FE770060C256 /* Main.storyboard */,
 				DB3AD27B2215FE770060C256 /* ViewController.swift */,
+				37CAB5342EE7589B0065C491 /* TutorialController.swift */,
 				37CAB5452EE762460065C491 /* TutorialSlideView.swift */,
 			);
 			path = HelloWorld;

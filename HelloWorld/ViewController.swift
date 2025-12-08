@@ -6,7 +6,7 @@ class ViewController: UINavigationController {
         super.viewDidLoad()
 
         let root = UIViewController()
-        root.view.backgroundColor = .systemBackground
+        root.view.backgroundColor = .orange
         root.title = "Main"
 
         let button = UIBarButtonItem(
