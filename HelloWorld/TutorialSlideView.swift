@@ -8,7 +8,6 @@ class TutorialSlideView: UIView {
     private let textContentView: TutorialTextContentView
     
     init(imageName: String, index: Int) {
-        // Figure out the localization keys from the index
         let number = String(format: "%02d", index + 1)
         let titleKey = "tutorial-slide-title-\(number)"
         let textKey = "tutorial-slide-text-\(number)"
@@ -17,7 +16,6 @@ class TutorialSlideView: UIView {
         
         super.init(frame: .zero)
         
-        // Image fills the entire view
         imageView.image = UIImage(named: imageName)
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -27,7 +25,6 @@ class TutorialSlideView: UIView {
 
         addSubview(textContentView)
 
-        // Set up Auto Layout for text content view
         textContentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             textContentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40),
@@ -41,8 +38,6 @@ class TutorialSlideView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-// MARK: - Private Text Content View
 
 private class TutorialTextContentView: UIView {
     
@@ -60,19 +55,16 @@ private class TutorialTextContentView: UIView {
         layer.borderWidth = 1.0
         
 
-        // Title label
         titleLabel.text = local(titleKey)
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         titleLabel.textColor = .white
         titleLabel.numberOfLines = 0
         
-        // Text label
         textLabel.text = local(textKey)
         textLabel.font = .preferredFont(forTextStyle: .body)
         textLabel.textColor = .white
         textLabel.numberOfLines = 0
         
-        // Stack view for labels
         stackView.axis = .vertical
         stackView.spacing = 8
         stackView.alignment = .leading
@@ -81,7 +73,6 @@ private class TutorialTextContentView: UIView {
 
         addSubview(stackView)
 
-        // Set up Auto Layout for stack view
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
