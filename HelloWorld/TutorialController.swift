@@ -6,7 +6,7 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
 
     private let scrollView = UIScrollView()
     private let pageControl = UIPageControl()
-    private var imageViews: [UIImageView] = []
+    private var slideViews: [TutorialSlideView] = []
     private let imageNames: [String]
     
     init(slug: String) {
@@ -67,13 +67,10 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
     }
 
     private func setupSlides() {
-        for name in imageNames {
-            let imageView = UIImageView(image: UIImage(named: name))
-            imageView.contentMode = .scaleAspectFit
-            imageView.clipsToBounds = true
-            
-            scrollView.addSubview(imageView)
-            imageViews.append(imageView)
+        for (index, name) in imageNames.enumerated() {
+            let slideView = TutorialSlideView(imageName: name, index: index)
+            scrollView.addSubview(slideView)
+            slideViews.append(slideView)
         }
     }
 
@@ -83,8 +80,8 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         let width = view.bounds.width
         let height = scrollView.bounds.height
         
-        for (index, imageView) in imageViews.enumerated() {
-            imageView.frame = CGRect(
+        for (index, slideView) in slideViews.enumerated() {
+            slideView.frame = CGRect(
                 x: CGFloat(index) * width,
                 y: 0,
                 width: width,
@@ -93,7 +90,7 @@ class TutorialController: UIViewController, UIScrollViewDelegate {
         }
 
         scrollView.contentSize = CGSize(
-            width: width * CGFloat(imageViews.count),
+            width: width * CGFloat(slideViews.count),
             height: height
         )
         
