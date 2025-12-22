@@ -30,7 +30,7 @@ class ViewController: UINavigationController {
         ])
 
         oscTester.delegate = self
-        oscTester.startReceiving(port: 7600)
+        oscTester.startReceiving()
         oscTester.startRampSending()
     }
 }
@@ -47,24 +47,29 @@ class OSCTester {
     weak var delegate: OSCTesterDelegate?
 
     private let client = OSCUDPClient()
-    private var server: OSCUDPServer?
+    private var servers: [OSCUDPServer] = []
     private var sendTimer: Timer?
     private var currentValue: Float = 0.0
     private var step: Float = 0.1
-    private let ports: [UInt16] = [54344]
+    private let sendPorts: [UInt16] = [7700, 5344]
+    private let receivePorts: [UInt16] = [7500, 7701]
 
-    func startReceiving(port: UInt16) {
-        server = OSCUDPServer(port: port) { [weak self] message, _, host, port in
-            guard let self else { return }
-            print("OSC received:", message, "from", host, port)
-            self.delegate?.oscTester(self, didReceive: message, host: host, port: port)
+    func startReceiving() {
+        servers = receivePorts.map { listenPort in
+            OSCUDPServer(port: listenPort) { [weak self] message, _, host, port in
+                guard let self else { return }
+                print("OSC received:", message, "from", host, port)
+                self.delegate?.oscTester(self, didReceive: message, host: host, port: port)
+            }
         }
 
-        do {
-            try server?.start()
-            print("OSC server listening on", port)
-        } catch {
-            print("OSC server start failed:", error)
+        for server in servers {
+            do {
+                try server.start()
+                print("OSC server listening on", server.port ?? 0)
+            } catch {
+                print("OSC server start failed:", error)
+            }
         }
     }
 
@@ -90,7 +95,7 @@ class OSCTester {
             values: [Float32(value)]
         )
         do {
-            for port in ports {
+            for port in sendPorts {
                 try client.send(message, to: "127.0.0.1", port: port)
             }
             print("OSC sent:", value)
