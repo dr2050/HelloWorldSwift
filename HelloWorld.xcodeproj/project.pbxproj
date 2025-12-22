@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		370055712EF9B9ED0037F83A /* OSCKit in Frameworks */ = {isa = PBXBuildFile; productRef = 370055702EF9B9ED0037F83A /* OSCKit */; };
 		3758F5682EC4F9B4008F5D1B /* SnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758F5672EC4F9AF008F5D1B /* SnapshotTests.swift */; };
 		37CAB53A2EE75B9A0065C491 /* tutorial-ipad-02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 37CAB5372EE75B9A0065C491 /* tutorial-ipad-02.jpg */; };
 		37CAB53B2EE75B9A0065C491 /* tutorial-ipad-03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 37CAB5382EE75B9A0065C491 /* tutorial-ipad-03.jpg */; };
@@ -62,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				370055712EF9B9ED0037F83A /* OSCKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +206,7 @@
 			);
 			mainGroup = DB3AD26D2215FE760060C256;
 			packageReferences = (
+				3700556F2EF9B9ED0037F83A /* XCRemoteSwiftPackageReference "OSCKit" */,
 			);
 			productRefGroup = DB3AD2772215FE770060C256 /* Products */;
 			projectDirPath = "";
@@ -534,6 +537,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3700556F2EF9B9ED0037F83A /* XCRemoteSwiftPackageReference "OSCKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/orchetect/OSCKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		370055702EF9B9ED0037F83A /* OSCKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3700556F2EF9B9ED0037F83A /* XCRemoteSwiftPackageReference "OSCKit" */;
+			productName = OSCKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DB3AD26E2215FE760060C256 /* Project object */;
 }
