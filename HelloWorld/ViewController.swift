@@ -2,10 +2,8 @@ import UIKit
 
 class ViewController: UINavigationController {
     private let oscTester = OSCTester()
-    private var sendTimer: Timer?
-    private var currentValue: Float = 0.0
-    private var step: Float = 0.1
     private let sentValueLabel = UILabel()
+    private let receivedValueLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -14,11 +12,64 @@ class ViewController: UINavigationController {
         sentValueLabel.text = "Sent Value: 0.0"
         sentValueLabel.font = UIFont.monospacedSystemFont(ofSize: 16, weight: .medium)
         sentValueLabel.textColor = .label
-        view.addSubview(sentValueLabel)
+
+        receivedValueLabel.translatesAutoresizingMaskIntoConstraints = false
+        receivedValueLabel.text = "Received: —"
+        receivedValueLabel.font = UIFont.monospacedSystemFont(ofSize: 16, weight: .medium)
+        receivedValueLabel.textColor = .label
+
+        let stack = UIStackView(arrangedSubviews: [sentValueLabel, receivedValueLabel])
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stack)
         NSLayoutConstraint.activate([
-            sentValueLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            sentValueLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+
+        oscTester.delegate = self
+        oscTester.startReceiving(port: 7600)
+        oscTester.startRampSending()
+    }
+}
+
+
+import OSCKit
+
+protocol OSCTesterDelegate: AnyObject {
+    func oscTester(_ tester: OSCTester, didSend value: Float)
+    func oscTester(_ tester: OSCTester, didReceive message: OSCMessage, host: String, port: UInt16)
+}
+
+class OSCTester {
+    weak var delegate: OSCTesterDelegate?
+
+    private let client = OSCUDPClient()
+    private var server: OSCUDPServer?
+    private var sendTimer: Timer?
+    private var currentValue: Float = 0.0
+    private var step: Float = 0.1
+    private let ports: [UInt16] = [54344]
+
+    func startReceiving(port: UInt16) {
+        server = OSCUDPServer(port: port) { [weak self] message, _, host, port in
+            guard let self else { return }
+            print("OSC received:", message, "from", host, port)
+            self.delegate?.oscTester(self, didReceive: message, host: host, port: port)
+        }
+
+        do {
+            try server?.start()
+            print("OSC server listening on", port)
+        } catch {
+            print("OSC server start failed:", error)
+        }
+    }
+
+    func startRampSending() {
+        sendTimer?.invalidate()
         sendTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self else { return }
             self.currentValue += self.step
@@ -29,20 +80,11 @@ class ViewController: UINavigationController {
                 self.currentValue = 0.0
                 self.step = abs(self.step)
             }
-            self.oscTester.sendTest(value: self.currentValue)
-            self.sentValueLabel.text = String(format: "Sent Value: %.1f", self.currentValue)
+            self.sendTest(value: self.currentValue)
         }
     }
-}
 
-
-import OSCKit
-
-class OSCTester {
-    let ports: [UInt16] = [54344]
-    
     func sendTest(value: Float) {
-        let client = OSCUDPClient()
         let message = OSCMessage(
             "/blah/SetValue",
             values: [Float32(value)]
@@ -52,8 +94,23 @@ class OSCTester {
                 try client.send(message, to: "127.0.0.1", port: port)
             }
             print("OSC sent:", value)
+            delegate?.oscTester(self, didSend: value)
         } catch {
             print("OSC send failed:", error)
+        }
+    }
+}
+
+extension ViewController: OSCTesterDelegate {
+    func oscTester(_ tester: OSCTester, didSend value: Float) {
+        DispatchQueue.main.async { [weak self] in
+            self?.sentValueLabel.text = String(format: "Sent Value: %.1f", value)
+        }
+    }
+
+    func oscTester(_ tester: OSCTester, didReceive message: OSCMessage, host: String, port: UInt16) {
+        DispatchQueue.main.async { [weak self] in
+            self?.receivedValueLabel.text = "Received: \(message)"
         }
     }
 }
